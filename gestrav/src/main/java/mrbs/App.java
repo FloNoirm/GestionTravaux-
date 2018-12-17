@@ -13,7 +13,7 @@ public class App
 	{
 		FicheEleve Fenetre = new FicheEleve();
 
-		//System.out.println( "Salut les tocards !!!!!" );
+		System.out.println( "Salut les tocards !!!!!" );
 		//TestMySQL();
 
 	}
