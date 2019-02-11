@@ -95,10 +95,12 @@ public class FrameApp extends JFrame {
 
 						ResultSet rs = Execution.executeQuery(requete);
 
-						while(rs.next()) {
+						if(rs.next()) {
+							FrameApp2  frame = new FrameApp2();
+							frame.setVisible(true);
 							System.out.println(rs.getString("name") +"\n"  + " "+ rs.getString("password_hash")+"\n");
 
-						}
+						} else System.out.println("Mdp Faux");
 
 						conn.close();
 

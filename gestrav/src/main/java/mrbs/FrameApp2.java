@@ -2,6 +2,7 @@ package mrbs;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -31,6 +32,8 @@ public class FrameApp2 extends JFrame {
 	private JButton btnAnnuler;
 	private JComboBox comboBox;
 	public FrameApp2() {
+		setSize(new Dimension(400, 300));
+		setMinimumSize(new Dimension(400, 300));
 		getContentPane().add(getPanel(), BorderLayout.CENTER);
 	}
 	private JPanel getPanel() {
@@ -149,6 +152,7 @@ public class FrameApp2 extends JFrame {
 		if (btnValider == null) {
 			btnValider = new JButton("Valider");
 			btnValider.addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent e) {
 
 					String requete = "INSERT INTO # FROM # ";
@@ -169,6 +173,7 @@ public class FrameApp2 extends JFrame {
 		if (comboBox == null) {
 			comboBox = new JComboBox();
 			comboBox.addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent e) {
 
 					String requete = "SELECT name FROM mrbs_users";
