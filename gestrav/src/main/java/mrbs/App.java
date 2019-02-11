@@ -11,7 +11,8 @@ public class App
 {
 	public static void main( String[] args ) throws SQLException
 	{
-		FicheEleve Fenetre = new FicheEleve();
+		FrameApp  frame = new FrameApp();
+		frame.setVisible(true);
 
 		System.out.println( "Salut les tocards !!!!!" );
 		//TestMySQL();
