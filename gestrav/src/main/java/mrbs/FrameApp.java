@@ -13,6 +13,8 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -22,6 +24,11 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 public class FrameApp extends JFrame {
+
+	private static String URL = "jdbc:mysql://localhost:3306/mrbs?useUnicode=true&serverTimezone=UTC";
+	private static String LOGIN = "root";
+	private static String PASSWORD = "root";
+
 	private JPanel panel;
 	private JPanel panel_1;
 	private JPanel panel_3;
@@ -75,6 +82,13 @@ public class FrameApp extends JFrame {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 
+					List<String> users = findAllUser(); //Création d'une liste avec les users trouvés dans la base 
+					System.out.println(users.size()); //Affiche la taille de la liste 
+
+					//traitement1();
+				}
+
+				private void traitement1() {
 					String Serveur = "localhost";
 
 					String Base = "mrbs";
@@ -109,13 +123,45 @@ public class FrameApp extends JFrame {
 
 						e1.printStackTrace();
 					}
-
-
 				}
 
 			});
 		}
 		return btnValider;
+	}
+	public List<String> findAllUser() {
+		final List<String> users = new ArrayList<String>();//Création d'une liste de users
+		Connection con = null;
+		Statement stmt = null;
+		try {
+			con = DriverManager.getConnection(URL, LOGIN, PASSWORD); //Récupére les donnés de connection
+			stmt = con.createStatement();
+			String requete = "SELECT name FROM mrbs_users"; //Récupère les données de la base 
+			System.out.println(requete); //Afiche les données récupérées 
+			ResultSet rset = stmt.executeQuery(requete);
+			while (rset.next()) {
+				users.add(rset.getString("name")); //Ajoute les users dans la liste 
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (stmt != null) {
+				try {
+					// Le stmt.close ferme automatiquement le rset.
+					stmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return users;
 	}
 
 	private JPanel getPanel_2_1() {

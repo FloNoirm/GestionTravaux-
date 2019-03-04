@@ -6,13 +6,6 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -22,10 +15,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class FrameApp2 extends JFrame {
-
-	private static String URL = "jdbc:mysql://localhost:3306/mrbs?useUnicode=true&serverTimezone=UTC";
-	private static String LOGIN = "root";
-	private static String PASSWORD = "root";
 
 
 	private JPanel panel;
@@ -149,10 +138,9 @@ public class FrameApp2 extends JFrame {
 			btnValider.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-
-					String requete = "INSERT INTO # FROM # ";
-
+					// alimenter la combo
 				}
+
 			});
 		}
 		return btnValider;
@@ -167,56 +155,12 @@ public class FrameApp2 extends JFrame {
 	private JComboBox getComboBox_1() {
 		if (comboBox == null) {
 			comboBox = new JComboBox();
-			comboBox.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					List<String> users = findAllUser(); //Création d'une liste avec les users trouvés dans la base 
-					System.out.println(users.size()); //Affiche la taille de la liste 
-					// alimenter la combo
-				}
-
-
-			});
 			comboBox.setBounds(113, 10, 116, 20);
 		}
 		return comboBox;
 	}
 
 
-	public List<String> findAllUser() {
-		final List<String> users = new ArrayList<String>();//Création d'une liste de users
-		Connection con = null;
-		Statement stmt = null;
-		try {
-			con = DriverManager.getConnection(URL, LOGIN, PASSWORD);
-			stmt = con.createStatement();
-			String requete = "SELECT name FROM mrbs_users"; //Récupère les données de la base 
-			System.out.println(requete); //Afiche les données récupérées 
-			ResultSet rset = stmt.executeQuery(requete);
-			while (rset.next()) {
-				users.add(rset.getString("name")); //Ajoute les users dans la liste 
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			if (stmt != null) {
-				try {
-					// Le stmt.close ferme automatiquement le rset.
-					stmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-			if (con != null) {
-				try {
-					con.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		return users;
-	}
 
 	private JComboBox getComboBox_1_1() {
 		if (comboBox_1 == null) {
