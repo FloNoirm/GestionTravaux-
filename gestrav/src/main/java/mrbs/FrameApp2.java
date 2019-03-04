@@ -170,8 +170,8 @@ public class FrameApp2 extends JFrame {
 			comboBox.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					List<String> users = findAllUser();
-					System.out.println(users.size());
+					List<String> users = findAllUser(); //Création d'une liste avec les users trouvés dans la base 
+					System.out.println(users.size()); //Affiche la taille de la liste 
 					// alimenter la combo
 				}
 
@@ -182,18 +182,19 @@ public class FrameApp2 extends JFrame {
 		return comboBox;
 	}
 
+
 	public List<String> findAllUser() {
-		final List<String> users = new ArrayList<String>();
+		final List<String> users = new ArrayList<String>();//Création d'une liste de users
 		Connection con = null;
 		Statement stmt = null;
 		try {
 			con = DriverManager.getConnection(URL, LOGIN, PASSWORD);
 			stmt = con.createStatement();
-			String requete = "SELECT name FROM mrbs_users";
-			System.out.println(requete);
+			String requete = "SELECT name FROM mrbs_users"; //Récupère les données de la base 
+			System.out.println(requete); //Afiche les données récupérées 
 			ResultSet rset = stmt.executeQuery(requete);
 			while (rset.next()) {
-				users.add(rset.getString("name"));
+				users.add(rset.getString("name")); //Ajoute les users dans la liste 
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
