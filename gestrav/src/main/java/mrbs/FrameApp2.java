@@ -6,6 +6,13 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -15,14 +22,18 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class FrameApp2 extends JFrame {
+
+	private static String URL = "jdbc:mysql://localhost:3306/mrbs?useUnicode=true&serverTimezone=UTC";
+	private static String LOGIN = "root";
+	private static String PASSWORD = "root";
+
+
 	private JPanel panel;
 	private JPanel panel_1;
 	private JPanel panel_2;
 	private JLabel lblNewLabel;
 	private JLabel lblQui;
-	private JTextField textField;
 	private JLabel lblNewLabel_1;
-	private JTextField textField_1;
 	private JLabel lblIntitul;
 	private JTextField textField_2;
 	private JLabel lblCommentaire;
@@ -31,6 +42,7 @@ public class FrameApp2 extends JFrame {
 	private JButton btnValider;
 	private JButton btnAnnuler;
 	private JComboBox comboBox;
+	private JComboBox comboBox_1;
 	public FrameApp2() {
 		setSize(new Dimension(400, 300));
 		setMinimumSize(new Dimension(400, 300));
@@ -58,14 +70,13 @@ public class FrameApp2 extends JFrame {
 			panel_2 = new JPanel();
 			panel_2.setLayout(null);
 			panel_2.add(getLblQui());
-			panel_2.add(getTextField());
 			panel_2.add(getLblNewLabel_1());
-			panel_2.add(getTextField_1());
 			panel_2.add(getLblIntitul());
 			panel_2.add(getTextField_2());
 			panel_2.add(getLblCommentaire());
 			panel_2.add(getTextField_3());
 			panel_2.add(getComboBox_1());
+			panel_2.add(getComboBox_1_1());
 		}
 		return panel_2;
 	}
@@ -84,14 +95,6 @@ public class FrameApp2 extends JFrame {
 		}
 		return lblQui;
 	}
-	private JTextField getTextField() {
-		if (textField == null) {
-			textField = new JTextField();
-			textField.setBounds(91, 10, 138, 20);
-			textField.setColumns(10);
-		}
-		return textField;
-	}
 	private JLabel getLblNewLabel_1() {
 		if (lblNewLabel_1 == null) {
 			lblNewLabel_1 = new JLabel("O\u00F9 :");
@@ -99,14 +102,6 @@ public class FrameApp2 extends JFrame {
 			lblNewLabel_1.setBounds(52, 45, 29, 14);
 		}
 		return lblNewLabel_1;
-	}
-	private JTextField getTextField_1() {
-		if (textField_1 == null) {
-			textField_1 = new JTextField();
-			textField_1.setColumns(10);
-			textField_1.setBounds(91, 42, 138, 20);
-		}
-		return textField_1;
 	}
 	private JLabel getLblIntitul() {
 		if (lblIntitul == null) {
@@ -175,13 +170,65 @@ public class FrameApp2 extends JFrame {
 			comboBox.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-
-					String requete = "SELECT name FROM mrbs_users";
-
+					List<String> users = findAllUser();
+					System.out.println(users.size());
+					// alimenter la combo
 				}
+
+
 			});
-			comboBox.setBounds(228, 10, 28, 20);
+			comboBox.setBounds(113, 10, 116, 20);
 		}
 		return comboBox;
+	}
+
+	public List<String> findAllUser() {
+		final List<String> users = new ArrayList<String>();
+		Connection con = null;
+		Statement stmt = null;
+		try {
+			con = DriverManager.getConnection(URL, LOGIN, PASSWORD);
+			stmt = con.createStatement();
+			String requete = "SELECT name FROM mrbs_users";
+			System.out.println(requete);
+			ResultSet rset = stmt.executeQuery(requete);
+			while (rset.next()) {
+				users.add(rset.getString("name"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (stmt != null) {
+				try {
+					// Le stmt.close ferme automatiquement le rset.
+					stmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return users;
+	}
+
+	private JComboBox getComboBox_1_1() {
+		if (comboBox_1 == null) {
+			comboBox_1 = new JComboBox();
+			comboBox_1.setBounds(113, 42, 116, 20);
+		}
+		return comboBox_1;
+
+	}
+
+	public void refresh() {
+		Object[] requete = new Object[]{"Element 1", "Element 2", "Element 3", "Element 4", "Element 5"};
+
+		// ,  getComboBox_1_1().setModel(new ComboBoxModel<?>(elements));
 	}
 }
