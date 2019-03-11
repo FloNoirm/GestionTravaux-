@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -175,5 +176,8 @@ public class FrameApp2 extends JFrame {
 		Object[] requete = new Object[]{"Element 1", "Element 2", "Element 3", "Element 4", "Element 5"};
 
 		// ,  getComboBox_1_1().setModel(new ComboBoxModel<?>(elements));
+	}
+	public void afficheListeUsers(List<String> users) {
+
 	}
 }

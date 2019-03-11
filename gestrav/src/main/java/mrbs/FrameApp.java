@@ -19,6 +19,7 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -28,6 +29,8 @@ public class FrameApp extends JFrame {
 	private static String URL = "jdbc:mysql://localhost:3306/mrbs?useUnicode=true&serverTimezone=UTC";
 	private static String LOGIN = "root";
 	private static String PASSWORD = "root";
+
+	private List<String> users;
 
 	private JPanel panel;
 	private JPanel panel_1;
@@ -41,7 +44,7 @@ public class FrameApp extends JFrame {
 	private JLabel lblMotDePasse;
 	private JLabel lblSeConnecter;
 	public FrameApp() {
-		setSize(new Dimension(400, 300));
+		setSize(new Dimension(800, 800));
 		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Fabio\\Pictures\\t\u00E9l\u00E9chargement.png"));
 		getContentPane().add(getPanel(), BorderLayout.CENTER);
 	}
@@ -82,13 +85,17 @@ public class FrameApp extends JFrame {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 
-					List<String> users = findAllUser(); //Création d'une liste avec les users trouvés dans la base 
-					System.out.println(users.size()); //Affiche la taille de la liste 
+					boolean response = verifIdentification();
 
-					//traitement1();
+					if (response) {
+						afficheFrame2();
+					}else {
+
+						JOptionPane.showMessageDialog(null, "Erreur de connexion !", "Alerte", JOptionPane.ERROR_MESSAGE);
+					}
 				}
 
-				private void traitement1() {
+				private boolean verifIdentification() {
 					String Serveur = "localhost";
 
 					String Base = "mrbs";
@@ -110,11 +117,12 @@ public class FrameApp extends JFrame {
 						ResultSet rs = Execution.executeQuery(requete);
 
 						if(rs.next()) {
-							FrameApp2  frame = new FrameApp2();
-							frame.setVisible(true);
 							System.out.println(rs.getString("name") +"\n"  + " "+ rs.getString("password_hash")+"\n");
 
-						} else System.out.println("Mdp Faux");
+						} else {
+							System.out.println("Mdp Faux");
+							return false;
+						}
 
 						conn.close();
 
@@ -123,6 +131,7 @@ public class FrameApp extends JFrame {
 
 						e1.printStackTrace();
 					}
+					return true;
 				}
 
 			});
@@ -234,5 +243,13 @@ public class FrameApp extends JFrame {
 			lblSeConnecter.setBounds(134, 11, 110, 28);
 		}
 		return lblSeConnecter;
+	}
+	private void afficheFrame2() {
+		users = findAllUser(); //Création d'une liste avec les users trouvés dans la base 
+		System.out.println(users.size()); //Affiche la taille de la liste
+		FrameApp2  frame = new FrameApp2();
+		frame.setVisible(true);
+		frame.afficheListeUsers(users);
+
 	}
 }

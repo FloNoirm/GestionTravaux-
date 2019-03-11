@@ -13,8 +13,6 @@ public class App
 	{
 		FrameApp  frame = new FrameApp();
 		frame.setVisible(true);
-
-		System.out.println( "Salut les tocards !!!!!" );
 		//TestMySQL();
 
 	}
