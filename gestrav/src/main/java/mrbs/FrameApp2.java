@@ -44,8 +44,10 @@ public class FrameApp2 extends JFrame {
 	private JButton btnAnnuler;
 	private JComboBox comboQui;
 	private JComboBox comboOU;
+	private JLabel lblPriorit;
+	private JTextField SaisiePrioTextField;
 	public FrameApp2() {
-		setSize(new Dimension(400, 300));
+		setSize(new Dimension(565, 433));
 		setMinimumSize(new Dimension(400, 300));
 		getContentPane().add(getPanel(), BorderLayout.CENTER);
 	}
@@ -78,6 +80,8 @@ public class FrameApp2 extends JFrame {
 			panel_2.add(getSaisieCom());
 			panel_2.add(getComboQui());
 			panel_2.add(getComboOU());
+			panel_2.add(getLblPriorit());
+			panel_2.add(getSaisiePrioTextField());
 		}
 		return panel_2;
 	}
@@ -91,16 +95,16 @@ public class FrameApp2 extends JFrame {
 	private JLabel getLblQui() {
 		if (lblQui == null) {
 			lblQui = new JLabel("Qui :");
-			lblQui.setBounds(52, 11, 29, 19);
-			lblQui.setFont(new Font("Calibri", Font.PLAIN, 15));
+			lblQui.setBounds(52, 16, 45, 22);
+			lblQui.setFont(new Font("Calibri", Font.PLAIN, 20));
 		}
 		return lblQui;
 	}
 	private JLabel getLblNewLabel_1() {
 		if (lblNewLabel_1 == null) {
 			lblNewLabel_1 = new JLabel("O\u00F9 :");
-			lblNewLabel_1.setFont(new Font("Calibri", Font.PLAIN, 15));
-			lblNewLabel_1.setBounds(52, 45, 29, 14);
+			lblNewLabel_1.setFont(new Font("Calibri", Font.PLAIN, 20));
+			lblNewLabel_1.setBounds(52, 67, 45, 22);
 		}
 		return lblNewLabel_1;
 	}
@@ -108,30 +112,31 @@ public class FrameApp2 extends JFrame {
 		if (lblIntitul == null) {
 			lblIntitul = new JLabel("Intitul\u00E9 :");
 			lblIntitul.setFont(new Font("Calibri", Font.PLAIN, 15));
-			lblIntitul.setBounds(52, 75, 58, 14);
+			lblIntitul.setBounds(52, 109, 58, 14);
 		}
 		return lblIntitul;
 	}
 	private JTextField getSaisieIntitule() {
 		if (SaisieIntitule == null) {
 			SaisieIntitule = new JTextField();
-			SaisieIntitule.setBounds(113, 73, 116, 20);
+			SaisieIntitule.setBounds(113, 98, 210, 33);
 			SaisieIntitule.setColumns(10);
 		}
 		return SaisieIntitule;
 	}
 	private JLabel getLblCommentaire() {
 		if (lblCommentaire == null) {
-			lblCommentaire = new JLabel("Commentaire :");
+			lblCommentaire = new JLabel("Commentaire: ");
 			lblCommentaire.setFont(new Font("Calibri", Font.PLAIN, 15));
-			lblCommentaire.setBounds(52, 100, 102, 14);
+			lblCommentaire.setBounds(63, 183, 102, 14);
+
 		}
 		return lblCommentaire;
 	}
 	private JTextField getSaisieCom() {
 		if (SaisieCom == null) {
 			SaisieCom = new JTextField();
-			SaisieCom.setBounds(52, 125, 331, 51);
+			SaisieCom.setBounds(63, 203, 398, 78);
 			SaisieCom.setColumns(10);
 		}
 		return SaisieCom;
@@ -162,16 +167,17 @@ public class FrameApp2 extends JFrame {
 		Users user = (Users)getComboQui().getSelectedItem();
 		Rooms room = (Rooms)getComboOU().getSelectedItem();
 		String intitule = getSaisieIntitule().getText();
+		int priorite = Integer.valueOf(getSaisiePrioTextField().getText());
 		String commentaire = getSaisieCom().getText();
 
-		System.out.println(user.toString() + room.toString() + intitule + commentaire);
+		System.out.println(user.toString() + room.toString() + intitule + priorite + commentaire);
 
 		Connection con = null;
 		PreparedStatement stmt = null;
 		try {
 			con = DriverManager.getConnection(FrameApp.URL, FrameApp.LOGIN, FrameApp.PASSWORD); //Récupére les donnés de connection
-			String requete= "INSERT INTO taches (mrbs_users_id,mrbs_room_id,nomTache,com_tache) VALUES "+
-					" (?,?,?,?)"; 
+			String requete= "INSERT INTO taches (mrbs_users_id,mrbs_room_id,nomTache,priorite_tache,com_tache) VALUES "+
+					" (?,?,?,?,?)"; 
 
 			stmt = con.prepareStatement(requete);
 
@@ -179,7 +185,8 @@ public class FrameApp2 extends JFrame {
 			stmt.setInt(1, user.getIdentifiant());
 			stmt.setInt(2, room.getIdentifiant());
 			stmt.setString(3, intitule);
-			stmt.setString(4, commentaire);
+			stmt.setInt(4, priorite);
+			stmt.setString(5, commentaire);
 
 			stmt.executeUpdate();
 		}  catch (SQLException e) {
@@ -212,7 +219,7 @@ public class FrameApp2 extends JFrame {
 	private JComboBox getComboQui() {
 		if (comboQui == null) {
 			comboQui = new JComboBox();
-			comboQui.setBounds(113, 10, 116, 20);
+			comboQui.setBounds(113, 10, 210, 33);
 		}
 		return comboQui;
 	}
@@ -222,7 +229,7 @@ public class FrameApp2 extends JFrame {
 	private JComboBox getComboOU() {
 		if (comboOU == null) {
 			comboOU = new JComboBox();
-			comboOU.setBounds(113, 42, 116, 20);
+			comboOU.setBounds(113, 56, 210, 33);
 		}
 		return comboOU;
 
@@ -317,5 +324,19 @@ public class FrameApp2 extends JFrame {
 		DefaultComboBoxModel<?> defaultCBModel = new DefaultComboBoxModel<>(rooms.toArray());
 		getComboOU().setModel(defaultCBModel);
 	}
-
+	private JLabel getLblPriorit() {
+		if (lblPriorit == null) {
+			lblPriorit = new JLabel("Priorité: ");
+			lblPriorit.setBounds(52, 147, 69, 20);
+		}
+		return lblPriorit;
+	}
+	private JTextField getSaisiePrioTextField() {
+		if (SaisiePrioTextField == null) {
+			SaisiePrioTextField = new JTextField();
+			SaisiePrioTextField.setBounds(113, 141, 210, 33);
+			SaisiePrioTextField.setColumns(10);
+		}
+		return SaisiePrioTextField;
+	}
 }
