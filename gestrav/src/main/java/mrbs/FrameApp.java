@@ -214,9 +214,9 @@ public class FrameApp extends JFrame {
 	}
 	private void afficheFrame2() {
 		FrameApp2  frame = new FrameApp2();
-		frame.setVisible(true);
 		frame.afficheListeUsers();
 		frame.afficheListeRooms();
+		frame.setVisible(true);
 
 	}
 }

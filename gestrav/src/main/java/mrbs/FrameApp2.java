@@ -22,6 +22,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import mrbs.model.Rooms;
+import mrbs.model.Users;
+
 public class FrameApp2 extends JFrame {
 
 
@@ -185,19 +188,20 @@ public class FrameApp2 extends JFrame {
 		// ,  getComboBox_1_1().setModel(new ComboBoxModel<?>(elements));
 	}
 
-	private List<String> findAllRooms(){
+	private List<Rooms> findAllRooms(){
 
-		final List<String> rooms = new ArrayList<String>();//Création d'une liste de users
+		final List<Rooms> rooms = new ArrayList<>();//Création d'une liste de users
 		Connection con = null;
 		Statement stmt = null;
 		try {
 			con = DriverManager.getConnection(FrameApp.URL, FrameApp.LOGIN, FrameApp.PASSWORD); //Récupére les donnés de connection
 			stmt = con.createStatement();
-			String requete = "SELECT room_name FROM mrbs_room"; //Récupère les données de la base 
+			String requete = "SELECT * FROM mrbs_room"; //Récupère les données de la base 
 			System.out.println(requete); //Afiche les données récupérées 
 			ResultSet rset = stmt.executeQuery(requete);
 			while (rset.next()) {
-				rooms.add(rset.getString("room_name")); //Ajoute les users dans la liste 
+				final Rooms room = Rooms.rsetToRoom(rset);
+				rooms.add(room); //Ajoute les users dans la liste 
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -223,18 +227,19 @@ public class FrameApp2 extends JFrame {
 	}
 
 
-	public List<String> findAllUser() {
-		final List<String> users = new ArrayList<String>();//Création d'une liste de users
+	public List<Users> findAllUser() {
+		final List<Users> users = new ArrayList<>();//Création d'une liste de users
 		Connection con = null;
 		Statement stmt = null;
 		try {
 			con = DriverManager.getConnection(FrameApp.URL, FrameApp.LOGIN, FrameApp.PASSWORD); //Récupére les donnés de connection
 			stmt = con.createStatement();
-			String requete = "SELECT name FROM mrbs_users"; //Récupère les données de la base 
+			String requete = "SELECT * FROM mrbs_users"; //Récupère les données de la base 
 			System.out.println(requete); //Afiche les données récupérées 
 			ResultSet rset = stmt.executeQuery(requete);
 			while (rset.next()) {
-				users.add(rset.getString("name")); //Ajoute les users dans la liste 
+				final Users user = Users.rsetToUser(rset);
+				users.add(user); //Ajoute les users dans la liste 
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -259,14 +264,14 @@ public class FrameApp2 extends JFrame {
 	}
 
 	public void afficheListeUsers() {
-		List<String> users = findAllUser(); //Création d'une liste avec les users trouvés dans la base 
+		List<Users> users = findAllUser(); //Création d'une liste avec les users trouvés dans la base 
 		System.out.println(users.size()); //Affiche la taille de la liste
 		DefaultComboBoxModel<?> defaultCBModel = new DefaultComboBoxModel<>(users.toArray());
 		getComboQui().setModel(defaultCBModel);
 	}
 
 	public void afficheListeRooms() {
-		List<String> rooms = findAllRooms(); //Création d'une liste avec les users trouvés dans la base 
+		List<Rooms> rooms = findAllRooms(); //Création d'une liste avec les users trouvés dans la base 
 		System.out.println(rooms.size()); //Affiche la taille de la liste
 		DefaultComboBoxModel<?> defaultCBModel = new DefaultComboBoxModel<>(rooms.toArray());
 		getComboOU().setModel(defaultCBModel);
