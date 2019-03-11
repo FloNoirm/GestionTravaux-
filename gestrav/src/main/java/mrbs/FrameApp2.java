@@ -6,6 +6,12 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
@@ -178,8 +184,92 @@ public class FrameApp2 extends JFrame {
 
 		// ,  getComboBox_1_1().setModel(new ComboBoxModel<?>(elements));
 	}
-	public void afficheListeUsers(List<String> users) {
+
+	private List<String> findAllRooms(){
+
+		final List<String> rooms = new ArrayList<String>();//Création d'une liste de users
+		Connection con = null;
+		Statement stmt = null;
+		try {
+			con = DriverManager.getConnection(FrameApp.URL, FrameApp.LOGIN, FrameApp.PASSWORD); //Récupére les donnés de connection
+			stmt = con.createStatement();
+			String requete = "SELECT room_name FROM mrbs_room"; //Récupère les données de la base 
+			System.out.println(requete); //Afiche les données récupérées 
+			ResultSet rset = stmt.executeQuery(requete);
+			while (rset.next()) {
+				rooms.add(rset.getString("room_name")); //Ajoute les users dans la liste 
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (stmt != null) {
+				try {
+					// Le stmt.close ferme automatiquement le rset.
+					stmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return rooms;
+
+	}
+
+
+	public List<String> findAllUser() {
+		final List<String> users = new ArrayList<String>();//Création d'une liste de users
+		Connection con = null;
+		Statement stmt = null;
+		try {
+			con = DriverManager.getConnection(FrameApp.URL, FrameApp.LOGIN, FrameApp.PASSWORD); //Récupére les donnés de connection
+			stmt = con.createStatement();
+			String requete = "SELECT name FROM mrbs_users"; //Récupère les données de la base 
+			System.out.println(requete); //Afiche les données récupérées 
+			ResultSet rset = stmt.executeQuery(requete);
+			while (rset.next()) {
+				users.add(rset.getString("name")); //Ajoute les users dans la liste 
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (stmt != null) {
+				try {
+					// Le stmt.close ferme automatiquement le rset.
+					stmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return users;
+	}
+
+	public void afficheListeUsers() {
+		List<String> users = findAllUser(); //Création d'une liste avec les users trouvés dans la base 
+		System.out.println(users.size()); //Affiche la taille de la liste
 		DefaultComboBoxModel<?> defaultCBModel = new DefaultComboBoxModel<>(users.toArray());
 		getComboQui().setModel(defaultCBModel);
 	}
+
+	public void afficheListeRooms() {
+		List<String> rooms = findAllRooms(); //Création d'une liste avec les users trouvés dans la base 
+		System.out.println(rooms.size()); //Affiche la taille de la liste
+		DefaultComboBoxModel<?> defaultCBModel = new DefaultComboBoxModel<>(rooms.toArray());
+		getComboOU().setModel(defaultCBModel);
+	}
+
 }
