@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -35,9 +36,9 @@ public class FrameApp2 extends JFrame {
 	private JLabel lblQui;
 	private JLabel lblNewLabel_1;
 	private JLabel lblIntitul;
-	private JTextField textField_2;
+	private JTextField SaisieIntitule;
 	private JLabel lblCommentaire;
-	private JTextField textField_3;
+	private JTextField SaisieCom;
 	private JPanel panel_3;
 	private JButton btnValider;
 	private JButton btnAnnuler;
@@ -72,9 +73,9 @@ public class FrameApp2 extends JFrame {
 			panel_2.add(getLblQui());
 			panel_2.add(getLblNewLabel_1());
 			panel_2.add(getLblIntitul());
-			panel_2.add(getTextField_2());
+			panel_2.add(getSaisieIntitule());
 			panel_2.add(getLblCommentaire());
-			panel_2.add(getTextField_3());
+			panel_2.add(getSaisieCom());
 			panel_2.add(getComboQui());
 			panel_2.add(getComboOU());
 		}
@@ -111,13 +112,13 @@ public class FrameApp2 extends JFrame {
 		}
 		return lblIntitul;
 	}
-	private JTextField getTextField_2() {
-		if (textField_2 == null) {
-			textField_2 = new JTextField();
-			textField_2.setBounds(113, 73, 116, 20);
-			textField_2.setColumns(10);
+	private JTextField getSaisieIntitule() {
+		if (SaisieIntitule == null) {
+			SaisieIntitule = new JTextField();
+			SaisieIntitule.setBounds(113, 73, 116, 20);
+			SaisieIntitule.setColumns(10);
 		}
-		return textField_2;
+		return SaisieIntitule;
 	}
 	private JLabel getLblCommentaire() {
 		if (lblCommentaire == null) {
@@ -127,13 +128,13 @@ public class FrameApp2 extends JFrame {
 		}
 		return lblCommentaire;
 	}
-	private JTextField getTextField_3() {
-		if (textField_3 == null) {
-			textField_3 = new JTextField();
-			textField_3.setBounds(52, 125, 331, 51);
-			textField_3.setColumns(10);
+	private JTextField getSaisieCom() {
+		if (SaisieCom == null) {
+			SaisieCom = new JTextField();
+			SaisieCom.setBounds(52, 125, 331, 51);
+			SaisieCom.setColumns(10);
 		}
-		return textField_3;
+		return SaisieCom;
 	}
 	private JPanel getPanel_3() {
 		if (panel_3 == null) {
@@ -149,12 +150,57 @@ public class FrameApp2 extends JFrame {
 			btnValider.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					// alimenter la combo
+					ajouterTache();
 				}
 
 			});
 		}
 		return btnValider;
+	}
+
+	private void ajouterTache(){	
+		Users user = (Users)getComboQui().getSelectedItem();
+		Rooms room = (Rooms)getComboOU().getSelectedItem();
+		String intitule = getSaisieIntitule().getText();
+		String commentaire = getSaisieCom().getText();
+
+		System.out.println(user.toString() + room.toString() + intitule + commentaire);
+
+		Connection con = null;
+		PreparedStatement stmt = null;
+		try {
+			con = DriverManager.getConnection(FrameApp.URL, FrameApp.LOGIN, FrameApp.PASSWORD); //Récupére les donnés de connection
+			String requete= "INSERT INTO taches (mrbs_users_id,mrbs_room_id,nomTache,com_tache) VALUES "+
+					" (?,?,?,?)"; 
+
+			stmt = con.prepareStatement(requete);
+
+
+			stmt.setInt(1, user.getIdentifiant());
+			stmt.setInt(2, room.getIdentifiant());
+			stmt.setString(3, intitule);
+			stmt.setString(4, commentaire);
+
+			stmt.executeUpdate();
+		}  catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (stmt != null) {
+				try {
+					// Le stmt.close ferme automatiquement le rset.
+					stmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 	private JButton getBtnAnnuler() {
 		if (btnAnnuler == null) {
@@ -182,11 +228,6 @@ public class FrameApp2 extends JFrame {
 
 	}
 
-	public void refresh() {
-		Object[] requete = new Object[]{"Element 1", "Element 2", "Element 3", "Element 4", "Element 5"};
-
-		// ,  getComboBox_1_1().setModel(new ComboBoxModel<?>(elements));
-	}
 
 	private List<Rooms> findAllRooms(){
 
