@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -31,8 +32,8 @@ public class FrameApp2 extends JFrame {
 	private JPanel panel_3;
 	private JButton btnValider;
 	private JButton btnAnnuler;
-	private JComboBox comboBox;
-	private JComboBox comboBox_1;
+	private JComboBox comboQui;
+	private JComboBox comboOU;
 	public FrameApp2() {
 		setSize(new Dimension(400, 300));
 		setMinimumSize(new Dimension(400, 300));
@@ -65,8 +66,8 @@ public class FrameApp2 extends JFrame {
 			panel_2.add(getTextField_2());
 			panel_2.add(getLblCommentaire());
 			panel_2.add(getTextField_3());
-			panel_2.add(getComboBox_1());
-			panel_2.add(getComboBox_1_1());
+			panel_2.add(getComboQui());
+			panel_2.add(getComboOU());
 		}
 		return panel_2;
 	}
@@ -153,22 +154,22 @@ public class FrameApp2 extends JFrame {
 		}
 		return btnAnnuler;
 	}
-	private JComboBox getComboBox_1() {
-		if (comboBox == null) {
-			comboBox = new JComboBox();
-			comboBox.setBounds(113, 10, 116, 20);
+	private JComboBox getComboQui() {
+		if (comboQui == null) {
+			comboQui = new JComboBox();
+			comboQui.setBounds(113, 10, 116, 20);
 		}
-		return comboBox;
+		return comboQui;
 	}
 
 
 
-	private JComboBox getComboBox_1_1() {
-		if (comboBox_1 == null) {
-			comboBox_1 = new JComboBox();
-			comboBox_1.setBounds(113, 42, 116, 20);
+	private JComboBox getComboOU() {
+		if (comboOU == null) {
+			comboOU = new JComboBox();
+			comboOU.setBounds(113, 42, 116, 20);
 		}
-		return comboBox_1;
+		return comboOU;
 
 	}
 
@@ -178,6 +179,7 @@ public class FrameApp2 extends JFrame {
 		// ,  getComboBox_1_1().setModel(new ComboBoxModel<?>(elements));
 	}
 	public void afficheListeUsers(List<String> users) {
-
+		DefaultComboBoxModel<?> defaultCBModel = new DefaultComboBoxModel<>(users.toArray());
+		getComboQui().setModel(defaultCBModel);
 	}
 }
