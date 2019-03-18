@@ -119,7 +119,7 @@ public class FrameApp2 extends JFrame {
 	private JTextField getSaisieIntitule() {
 		if (SaisieIntitule == null) {
 			SaisieIntitule = new JTextField();
-			SaisieIntitule.setBounds(113, 98, 210, 33);
+			SaisieIntitule.setBounds(113, 100, 210, 31);
 			SaisieIntitule.setColumns(10);
 		}
 		return SaisieIntitule;
