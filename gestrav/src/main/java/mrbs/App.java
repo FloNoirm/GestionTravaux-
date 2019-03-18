@@ -22,8 +22,7 @@ public class App
 
 		String Base = "mrbs";
 		String Utilisateur = "root";
-		String MotDePasse = "root";
-
+		String MotDePasse = "root"; 
 
 		String connectionURL = "jdbc:mysql://" + Serveur + ":3306/" + Base + "?zeroDateTimeBehavior=CONVERT_TO_NULL&serverTimezone=UTC";
 

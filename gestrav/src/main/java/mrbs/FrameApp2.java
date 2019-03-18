@@ -218,6 +218,17 @@ public class FrameApp2 extends JFrame {
 	private JButton getBtnAnnuler() {
 		if (btnAnnuler == null) {
 			btnAnnuler = new JButton("Annuler");
+			btnAnnuler.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+
+					SaisieIntitule.setText("");
+					SaisiePrioTextField.setText("");
+					SaisieCom.setText("");
+
+				}
+			});
 			btnAnnuler.setAlignmentX(Component.CENTER_ALIGNMENT);
 		}
 		return btnAnnuler;
