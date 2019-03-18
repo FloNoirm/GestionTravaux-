@@ -46,8 +46,10 @@ public class FrameApp2 extends JFrame {
 	private JComboBox comboOU;
 	private JLabel lblPriorit;
 	private JTextField SaisiePrioTextField;
+	private JComboBox comboResp;
+	private JLabel lblResponsable;
 	public FrameApp2() {
-		setSize(new Dimension(565, 433));
+		setSize(new Dimension(637, 523));
 		setMinimumSize(new Dimension(400, 300));
 		getContentPane().add(getPanel(), BorderLayout.CENTER);
 	}
@@ -82,6 +84,8 @@ public class FrameApp2 extends JFrame {
 			panel_2.add(getComboOU());
 			panel_2.add(getLblPriorit());
 			panel_2.add(getSaisiePrioTextField());
+			panel_2.add(getComboResp());
+			panel_2.add(getLblResponsable());
 		}
 		return panel_2;
 	}
@@ -95,7 +99,7 @@ public class FrameApp2 extends JFrame {
 	private JLabel getLblQui() {
 		if (lblQui == null) {
 			lblQui = new JLabel("Qui :");
-			lblQui.setBounds(52, 16, 45, 22);
+			lblQui.setBounds(88, 16, 45, 22);
 			lblQui.setFont(new Font("Calibri", Font.PLAIN, 20));
 		}
 		return lblQui;
@@ -104,7 +108,7 @@ public class FrameApp2 extends JFrame {
 		if (lblNewLabel_1 == null) {
 			lblNewLabel_1 = new JLabel("O\u00F9 :");
 			lblNewLabel_1.setFont(new Font("Calibri", Font.PLAIN, 20));
-			lblNewLabel_1.setBounds(52, 67, 45, 22);
+			lblNewLabel_1.setBounds(88, 67, 45, 22);
 		}
 		return lblNewLabel_1;
 	}
@@ -112,14 +116,14 @@ public class FrameApp2 extends JFrame {
 		if (lblIntitul == null) {
 			lblIntitul = new JLabel("Intitul\u00E9 :");
 			lblIntitul.setFont(new Font("Calibri", Font.PLAIN, 15));
-			lblIntitul.setBounds(52, 109, 58, 14);
+			lblIntitul.setBounds(75, 109, 58, 14);
 		}
 		return lblIntitul;
 	}
 	private JTextField getSaisieIntitule() {
 		if (SaisieIntitule == null) {
 			SaisieIntitule = new JTextField();
-			SaisieIntitule.setBounds(113, 98, 210, 33);
+			SaisieIntitule.setBounds(148, 102, 210, 33);
 			SaisieIntitule.setColumns(10);
 		}
 		return SaisieIntitule;
@@ -128,7 +132,7 @@ public class FrameApp2 extends JFrame {
 		if (lblCommentaire == null) {
 			lblCommentaire = new JLabel("Commentaire: ");
 			lblCommentaire.setFont(new Font("Calibri", Font.PLAIN, 15));
-			lblCommentaire.setBounds(63, 183, 102, 14);
+			lblCommentaire.setBounds(63, 235, 102, 14);
 
 		}
 		return lblCommentaire;
@@ -136,7 +140,7 @@ public class FrameApp2 extends JFrame {
 	private JTextField getSaisieCom() {
 		if (SaisieCom == null) {
 			SaisieCom = new JTextField();
-			SaisieCom.setBounds(63, 203, 398, 78);
+			SaisieCom.setBounds(62, 265, 398, 78);
 			SaisieCom.setColumns(10);
 		}
 		return SaisieCom;
@@ -168,16 +172,17 @@ public class FrameApp2 extends JFrame {
 		Rooms room = (Rooms)getComboOU().getSelectedItem();
 		String intitule = getSaisieIntitule().getText();
 		int priorite = Integer.valueOf(getSaisiePrioTextField().getText());
+		Users responsable = (Users)getComboResp().getSelectedItem();
 		String commentaire = getSaisieCom().getText();
 
-		System.out.println(user.toString() + room.toString() + intitule + priorite + commentaire);
+		System.out.println(user.toString() + room.toString() + intitule + priorite + responsable.toString() + commentaire);
 
 		Connection con = null;
 		PreparedStatement stmt = null;
 		try {
 			con = DriverManager.getConnection(FrameApp.URL, FrameApp.LOGIN, FrameApp.PASSWORD); //Récupére les donnés de connection
-			String requete= "INSERT INTO taches (mrbs_users_id,mrbs_room_id,nomTache,priorite_tache,com_tache) VALUES "+
-					" (?,?,?,?,?)"; 
+			String requete= "INSERT INTO taches (mrbs_users_id,mrbs_room_id,nomTache,priorite_tache,responsable,com_tache) VALUES "+
+					" (?,?,?,?,?,?)"; 
 
 			stmt = con.prepareStatement(requete);
 
@@ -186,7 +191,8 @@ public class FrameApp2 extends JFrame {
 			stmt.setInt(2, room.getIdentifiant());
 			stmt.setString(3, intitule);
 			stmt.setInt(4, priorite);
-			stmt.setString(5, commentaire);
+			stmt.setInt (5, responsable.getIdentifiant());
+			stmt.setString(6, commentaire);
 
 			stmt.executeUpdate();
 		}  catch (SQLException e) {
@@ -219,7 +225,7 @@ public class FrameApp2 extends JFrame {
 	private JComboBox getComboQui() {
 		if (comboQui == null) {
 			comboQui = new JComboBox();
-			comboQui.setBounds(113, 10, 210, 33);
+			comboQui.setBounds(148, 10, 210, 33);
 		}
 		return comboQui;
 	}
@@ -229,7 +235,7 @@ public class FrameApp2 extends JFrame {
 	private JComboBox getComboOU() {
 		if (comboOU == null) {
 			comboOU = new JComboBox();
-			comboOU.setBounds(113, 56, 210, 33);
+			comboOU.setBounds(148, 61, 210, 33);
 		}
 		return comboOU;
 
@@ -311,6 +317,7 @@ public class FrameApp2 extends JFrame {
 		return users;
 	}
 
+
 	public void afficheListeUsers() {
 		List<Users> users = findAllUser(); //Création d'une liste avec les users trouvés dans la base 
 		System.out.println(users.size()); //Affiche la taille de la liste
@@ -319,24 +326,46 @@ public class FrameApp2 extends JFrame {
 	}
 
 	public void afficheListeRooms() {
-		List<Rooms> rooms = findAllRooms(); //Création d'une liste avec les users trouvés dans la base 
+		List<Rooms> rooms = findAllRooms(); //Création d'une liste avec les salles trouvées dans la base 
 		System.out.println(rooms.size()); //Affiche la taille de la liste
 		DefaultComboBoxModel<?> defaultCBModel = new DefaultComboBoxModel<>(rooms.toArray());
 		getComboOU().setModel(defaultCBModel);
 	}
+
+	public void afficheListeResponsables() {
+		List<Users> users = findAllUser(); //Création d'une liste avec les users trouvés dans la base 
+		System.out.println(users.size()); //Affiche la taille de la liste
+		DefaultComboBoxModel<?> defaultCBModel = new DefaultComboBoxModel<>(users.toArray());
+		getComboResp().setModel(defaultCBModel);
+	}
+
 	private JLabel getLblPriorit() {
 		if (lblPriorit == null) {
 			lblPriorit = new JLabel("Priorité: ");
-			lblPriorit.setBounds(52, 147, 69, 20);
+			lblPriorit.setBounds(75, 147, 69, 20);
 		}
 		return lblPriorit;
 	}
 	private JTextField getSaisiePrioTextField() {
 		if (SaisiePrioTextField == null) {
 			SaisiePrioTextField = new JTextField();
-			SaisiePrioTextField.setBounds(113, 141, 210, 33);
+			SaisiePrioTextField.setBounds(148, 151, 210, 33);
 			SaisiePrioTextField.setColumns(10);
 		}
 		return SaisiePrioTextField;
+	}
+	private JComboBox getComboResp() {
+		if (comboResp == null) {
+			comboResp = new JComboBox();
+			comboResp.setBounds(148, 190, 210, 36);
+		}
+		return comboResp;
+	}
+	private JLabel getLblResponsable() {
+		if (lblResponsable == null) {
+			lblResponsable = new JLabel("Responsable:");
+			lblResponsable.setBounds(37, 183, 102, 36);
+		}
+		return lblResponsable;
 	}
 }

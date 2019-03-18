@@ -31,6 +31,7 @@ public class FrameApp extends JFrame {
 
 	private List<String> users;
 
+
 	private JPanel panel;
 	private JPanel panel_1;
 	private JPanel panel_3;
@@ -216,6 +217,7 @@ public class FrameApp extends JFrame {
 		FrameApp2  frame = new FrameApp2();
 		frame.afficheListeUsers();
 		frame.afficheListeRooms();
+		frame.afficheListeResponsables();
 		frame.setVisible(true);
 
 	}
