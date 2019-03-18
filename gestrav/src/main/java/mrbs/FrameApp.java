@@ -43,6 +43,8 @@ public class FrameApp extends JFrame {
 	private JLabel lblNewLabel;
 	private JLabel lblMotDePasse;
 	private JLabel lblSeConnecter;
+	private JButton DemandeTrav;
+	private JButton ListTaches;
 	public FrameApp() {
 		setSize(new Dimension(800, 800));
 		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Fabio\\Pictures\\t\u00E9l\u00E9chargement.png"));
@@ -74,6 +76,8 @@ public class FrameApp extends JFrame {
 			panel_3.setBackground(Color.WHITE);
 			panel_3.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 			panel_3.add(getBtnValider());
+			panel_3.add(getDemandeTrav());
+			panel_3.add(getListTaches());
 		}
 		return panel_3;
 	}
@@ -88,7 +92,9 @@ public class FrameApp extends JFrame {
 					boolean response = verifIdentification();
 
 					if (response) {
-						afficheFrame2();
+						getDemandeTrav().setVisible(true);
+						getListTaches().setVisible(true);
+						getBtnValider().setVisible(false);
 					}else {
 
 						JOptionPane.showMessageDialog(null, "Erreur de connexion !", "Alerte", JOptionPane.ERROR_MESSAGE);
@@ -155,6 +161,8 @@ public class FrameApp extends JFrame {
 		}
 		return panel_2;
 	}
+
+	//Créer un JTextefiel afin d'afficher le titre 
 	private JTextField getTxtMaisonDesLigues() {
 		if (txtMaisonDesLigues == null) {
 			txtMaisonDesLigues = new JTextField();
@@ -165,30 +173,27 @@ public class FrameApp extends JFrame {
 		}
 		return txtMaisonDesLigues;
 	}
+	//Créer un JTextefiel afin de saisir l'id 
 	private JTextField getIdentifiant() {
 		if (identifiant == null) {
 			identifiant = new JTextField();
-			identifiant.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-
-					String requete = "SELECT name FROM mrbs_users";
-
-				}
-			});
 			identifiant.setBounds(184, 63, 131, 28);
-			identifiant.setColumns(10);
 		}
 		return identifiant;
 	}
+
+	//Créer un JTextefield afin de saisir le mdp 
 	private JTextField getMdp() {
 		if (mdp == null) {
 			mdp = new JTextField();
 			mdp.setColumns(10);
 			mdp.setBounds(184, 120, 131, 28);
 		}
+		//retourne le mdp écrit dans le JTextefield
 		return mdp;
 	}
+
+	//Créer un Jlabel pour l'id 
 	private JLabel getLblNewLabel() {
 		if (lblNewLabel == null) {
 			lblNewLabel = new JLabel("Identifiant :");
@@ -197,6 +202,8 @@ public class FrameApp extends JFrame {
 		}
 		return lblNewLabel;
 	}
+
+	//Créer un Jlabel pour le mdp 
 	private JLabel getLblMotDePasse() {
 		if (lblMotDePasse == null) {
 			lblMotDePasse = new JLabel("Mot de passe :");
@@ -205,14 +212,16 @@ public class FrameApp extends JFrame {
 		}
 		return lblMotDePasse;
 	}
+	//Créer un Jlabel pour le titre  
 	private JLabel getLblSeConnecter() {
 		if (lblSeConnecter == null) {
-			lblSeConnecter = new JLabel("Se Connecter");
+			lblSeConnecter = new JLabel("Se connecter");
 			lblSeConnecter.setFont(new Font("Calibri", Font.BOLD, 20));
-			lblSeConnecter.setBounds(134, 11, 110, 28);
+			lblSeConnecter.setBounds(300, 16, 110, 28);
 		}
 		return lblSeConnecter;
 	}
+	//Affiche La liste des différentes listes dans les combobox
 	private void afficheFrame2() {
 		FrameApp2  frame = new FrameApp2();
 		frame.afficheListeUsers();
@@ -220,5 +229,27 @@ public class FrameApp extends JFrame {
 		frame.afficheListeResponsables();
 		frame.setVisible(true);
 
+	}
+	private JButton getDemandeTrav() {
+		if (DemandeTrav == null) {
+			DemandeTrav = new JButton("Demande de travaux");
+			DemandeTrav.setVisible(false);
+
+			DemandeTrav.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					afficheFrame2();
+				}
+			});
+		}
+		return DemandeTrav;
+	}
+	private JButton getListTaches() {
+		if (ListTaches == null) {
+			ListTaches = new JButton("Liste des tâches ");
+			//Cache les boutons sur la première page 
+			ListTaches.setVisible(false);
+		}
+		return ListTaches;
 	}
 }
