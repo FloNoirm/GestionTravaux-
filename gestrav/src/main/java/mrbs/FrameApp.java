@@ -230,6 +230,14 @@ public class FrameApp extends JFrame {
 		frame.setVisible(true);
 
 	}
+
+	private void afficheFrame3() {
+		FrameApp3  frame = new FrameApp3();
+		frame.afficheListeTaches();
+		frame.setVisible(true);
+
+	}
+
 	private JButton getDemandeTrav() {
 		if (DemandeTrav == null) {
 			DemandeTrav = new JButton("Demande de travaux");
@@ -249,6 +257,13 @@ public class FrameApp extends JFrame {
 			ListTaches = new JButton("Liste des tâches ");
 			//Cache les boutons sur la première page 
 			ListTaches.setVisible(false);
+
+			ListTaches.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					afficheFrame3();
+				}
+			});
 		}
 		return ListTaches;
 	}

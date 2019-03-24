@@ -49,7 +49,7 @@ public class FrameApp2 extends JFrame {
 	private JComboBox comboResp;
 	private JLabel lblResponsable;
 	public FrameApp2() {
-		setSize(new Dimension(637, 523));
+		setSize(new Dimension(800, 800));
 		setMinimumSize(new Dimension(400, 300));
 		getContentPane().add(getPanel(), BorderLayout.CENTER);
 	}
