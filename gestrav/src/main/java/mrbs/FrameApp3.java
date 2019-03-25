@@ -3,9 +3,10 @@ package mrbs;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.GraphicsConfiguration;
 import java.awt.HeadlessException;
 import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -19,35 +20,28 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 public class FrameApp3 extends JFrame {
 	private JPanel panel;
 	private JComboBox comboTaches;
 	private JLabel lblChoixTaches;
 	private JButton btnValider;
-	private JList jlist;
+	private JLabel lblDateDeDbut;
+	private JLabel lblDateDeFin;
+	private JLabel lblPrioritDeLa;
+	private JLabel lblSalle;
+	private JTextField txtFDateDebut;
+	private JTextField textField_1;
+	private JTextField textField_2;
+	private JTextField textField_3;
 
 	public FrameApp3() throws HeadlessException {
 		getContentPane().add(getPanel(), BorderLayout.CENTER);
 		setSize(new Dimension(800, 800));
 	}
 
-	public FrameApp3(GraphicsConfiguration gc) {
-		super(gc);
-		// TODO Auto-generated constructor stub
-	}
-
-	public FrameApp3(String title) throws HeadlessException {
-		super(title);
-		// TODO Auto-generated constructor stub
-	}
-
-	public FrameApp3(String title, GraphicsConfiguration gc) {
-		super(title, gc);
-		// TODO Auto-generated constructor stub
-	}
 
 	private JPanel getPanel() {
 		if (panel == null) {
@@ -56,7 +50,14 @@ public class FrameApp3 extends JFrame {
 			panel.add(getComboTaches());
 			panel.add(getLblChoixTaches());
 			panel.add(getBtnValider());
-			panel.add(getJList());
+			panel.add(getLblDateDeDbut());
+			panel.add(getLblDateDeFin());
+			panel.add(getLblPrioritDeLa());
+			panel.add(getLblSalle());
+			panel.add(getTxtFDateDebut());
+			panel.add(getTextField_1());
+			panel.add(getTextField_2());
+			panel.add(getTextField_3());
 		}
 		return panel;
 	}
@@ -64,7 +65,7 @@ public class FrameApp3 extends JFrame {
 		if (comboTaches == null) {
 			comboTaches = new JComboBox();
 			comboTaches.setSize(138, 20);
-			comboTaches.setLocation(new Point(159, 75));
+			comboTaches.setLocation(new Point(193, 37));
 		}
 		return comboTaches;
 	}
@@ -72,24 +73,33 @@ public class FrameApp3 extends JFrame {
 		if (lblChoixTaches == null) {
 			lblChoixTaches = new JLabel("Choisissez une tâche :");
 			lblChoixTaches.setFont(new Font("Calibri", Font.PLAIN, 14));
-			lblChoixTaches.setBounds(32, 73, 138, 29);
+			lblChoixTaches.setBounds(45, 33, 138, 29);
 		}
 		return lblChoixTaches;
 	}
 	private JButton getBtnValider() {
 		if (btnValider == null) {
 			btnValider = new JButton("Valider");
-			btnValider.setBounds(179, 131, 89, 23);
+			btnValider.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+
+					afficherDonneesTaches();
+
+				}
+
+
+			});
+			btnValider.setBounds(193, 68, 89, 23);
 		}
 		return btnValider;
 	}
 
-	private JList getJList() {
-		if (jlist == null) {
-			jlist = new JList();
-			jlist.setBounds(100, 165, 259, 62);
-		}
-		return jlist;
+	private void afficherDonneesTaches() {
+		Taches tacheSelectionner=(Taches) getComboTaches().getSelectedItem();
+		System.out.println(tacheSelectionner.getNomTache());
+		txtFDateDebut.setText(tacheSelectionner.getDate_debut().toString());
 	}
 
 	public void afficheListeTaches() {
@@ -137,5 +147,65 @@ public class FrameApp3 extends JFrame {
 		}
 		return taches;
 
+	}
+	private JLabel getLblDateDeDbut() {
+		if (lblDateDeDbut == null) {
+			lblDateDeDbut = new JLabel("Date de début :");
+			lblDateDeDbut.setBounds(89, 115, 82, 20);
+		}
+		return lblDateDeDbut;
+	}
+	private JLabel getLblDateDeFin() {
+		if (lblDateDeFin == null) {
+			lblDateDeFin = new JLabel("Date de fin :");
+			lblDateDeFin.setBounds(99, 146, 72, 20);
+		}
+		return lblDateDeFin;
+	}
+	private JLabel getLblPrioritDeLa() {
+		if (lblPrioritDeLa == null) {
+			lblPrioritDeLa = new JLabel("Priorité de la tache :");
+			lblPrioritDeLa.setBounds(67, 177, 103, 24);
+		}
+		return lblPrioritDeLa;
+	}
+	private JLabel getLblSalle() {
+		if (lblSalle == null) {
+			lblSalle = new JLabel("Salle :");
+			lblSalle.setBounds(132, 208, 39, 20);
+		}
+		return lblSalle;
+	}
+	private JTextField getTxtFDateDebut() {
+		if (txtFDateDebut == null) {
+			txtFDateDebut = new JTextField();
+			txtFDateDebut.setBounds(193, 115, 138, 20);
+			txtFDateDebut.setColumns(10);
+		}
+		return txtFDateDebut;
+	}
+	private JTextField getTextField_1() {
+		if (textField_1 == null) {
+			textField_1 = new JTextField();
+			textField_1.setBounds(193, 146, 138, 20);
+			textField_1.setColumns(10);
+		}
+		return textField_1;
+	}
+	private JTextField getTextField_2() {
+		if (textField_2 == null) {
+			textField_2 = new JTextField();
+			textField_2.setBounds(193, 179, 138, 20);
+			textField_2.setColumns(10);
+		}
+		return textField_2;
+	}
+	private JTextField getTextField_3() {
+		if (textField_3 == null) {
+			textField_3 = new JTextField();
+			textField_3.setBounds(193, 208, 138, 20);
+			textField_3.setColumns(10);
+		}
+		return textField_3;
 	}
 }
