@@ -45,6 +45,7 @@ public class FrameApp extends JFrame {
 	private JLabel lblSeConnecter;
 	private JButton DemandeTrav;
 	private JButton ListTaches;
+	private JButton tachesList;
 	public FrameApp() {
 		setSize(new Dimension(800, 800));
 		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Fabio\\Pictures\\t\u00E9l\u00E9chargement.png"));
@@ -78,6 +79,7 @@ public class FrameApp extends JFrame {
 			panel_3.add(getBtnValider());
 			panel_3.add(getDemandeTrav());
 			panel_3.add(getListTaches());
+			panel_3.add(getTabEtatTaches());
 		}
 		return panel_3;
 	}
@@ -94,6 +96,7 @@ public class FrameApp extends JFrame {
 					if (response) {
 						getDemandeTrav().setVisible(true);
 						getListTaches().setVisible(true);
+						getTabEtatTaches().setVisible(true);
 						getBtnValider().setVisible(false);
 					}else {
 
@@ -238,6 +241,13 @@ public class FrameApp extends JFrame {
 
 	}
 
+	private void afficheFrame4() {
+		FrameApp4 frame = new FrameApp4();
+		frame.afficheListeTaches();
+		frame.setVisible(true);
+
+	}
+
 	private JButton getDemandeTrav() {
 		if (DemandeTrav == null) {
 			DemandeTrav = new JButton("Demande de travaux");
@@ -266,5 +276,23 @@ public class FrameApp extends JFrame {
 			});
 		}
 		return ListTaches;
+	}
+
+	private JButton getTabEtatTaches() {
+		if (tachesList == null) {
+			tachesList = new JButton("Etat d'une tache ");
+			//Cache les boutons sur la première page 
+			tachesList.setVisible(false);
+
+			tachesList.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					afficheFrame4();
+				}
+
+
+			});
+		}
+		return tachesList;
 	}
 }

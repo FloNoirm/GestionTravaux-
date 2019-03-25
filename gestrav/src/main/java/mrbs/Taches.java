@@ -6,10 +6,34 @@ import java.util.Date;
 public class Taches {
 
 	private String nomTache;
-	private int idTache;
+	private int etat_id_etat;
 	private Date date_debut;
 	private Date date_fin;
 	private int priorite_tache;
+
+	private enum EtatTache{
+		EN_COURS(1, "En cours"),
+		TERMINE(3, "Terminée"),
+		EN_ATTENTE(2,"En attente");
+
+		private String libelle;
+		private int code;
+
+
+		private EtatTache(int code ,String libelle) {
+			this.libelle = libelle;
+			this.code = code;
+		}
+
+		public int etat_id_etat() {
+			return code;
+		}
+
+		public String getLibelle() {
+			return libelle;
+		}
+
+	}
 
 
 	public int getPriorite_tache() {
@@ -36,11 +60,11 @@ public class Taches {
 	public void setName(String name) {
 		this.nomTache = name;
 	}
-	public int getIdentifiant() {
-		return idTache;
+	public int getEtat() {
+		return etat_id_etat;
 	}
 	public void setIdentifiant(int identifiant) {
-		this.idTache = identifiant;
+		this.etat_id_etat = identifiant;
 	}
 	@Override
 	public String toString() {
@@ -71,5 +95,14 @@ public class Taches {
 		}
 
 		return taches;
+	}
+	public boolean isTacheTerminee() {
+		return etat_id_etat==EtatTache.TERMINE.etat_id_etat();
+	}
+	public boolean isTacheEnCours() {
+		return etat_id_etat==EtatTache.EN_COURS.etat_id_etat();
+	}
+	public boolean isTacheEnAttente() {
+		return etat_id_etat==EtatTache.EN_ATTENTE.etat_id_etat();
 	}
 }
