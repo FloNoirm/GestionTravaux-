@@ -7,6 +7,40 @@ public class Taches {
 	private String nomTache;
 	private int idTache;
 
+	private enum EtatTache{
+		EN_COURS(1, "en cours"),
+		TERMINE(3, "terminée"),
+		EN_ATTENTE(2,"en attente");
+
+		private String libelle;
+		private int code;
+
+
+		private EtatTache(int code ,String libelle) {
+			this.libelle = libelle;
+			this.code = code;
+		}
+
+		public int getCode() {
+			return code;
+		}
+
+		public String getLibelle() {
+			return libelle;
+		}
+
+	}
+
+	public boolean isTacheTerminee() {
+		return idTache==EtatTache.TERMINE.getCode();
+	}
+
+
+
+
+
+
+
 
 	public String getNomTache() {
 		return nomTache;
