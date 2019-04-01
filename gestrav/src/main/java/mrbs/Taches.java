@@ -10,6 +10,7 @@ public class Taches {
 	private Date date_debut;
 	private Date date_fin;
 	private int priorite_tache;
+	private int idTache;
 
 	private enum EtatTache{
 		EN_COURS(1, "En cours"),
@@ -17,22 +18,28 @@ public class Taches {
 		EN_ATTENTE(2,"En attente");
 
 		private String libelle;
-		private int code;
+		private int etat_id_etat;
 
 
 		private EtatTache(int code ,String libelle) {
 			this.libelle = libelle;
-			this.code = code;
+			this.etat_id_etat = code;
 		}
 
 		public int etat_id_etat() {
-			return code;
+			return etat_id_etat;
 		}
 
 		public String getLibelle() {
 			return libelle;
 		}
-
+		public static String libelleWithCode(int codeValue) {
+			for (EtatTache etat : EtatTache.values()) {
+				if ( etat.etat_id_etat() == codeValue )
+					return etat.getLibelle();
+			}
+			return null;
+		}
 	}
 
 
@@ -60,11 +67,21 @@ public class Taches {
 	public void setName(String name) {
 		this.nomTache = name;
 	}
+
+	public void setEtatTache(int etat_id_etat) {
+		this.etat_id_etat = etat_id_etat;
+	}
 	public int getEtat() {
 		return etat_id_etat;
 	}
-	public void setIdentifiant(int identifiant) {
-		this.etat_id_etat = identifiant;
+	public String libelleEtat() {
+		return EtatTache.libelleWithCode(etat_id_etat);
+	}
+	public void setIdEtat(int idTache) {
+		this.idTache = getIdTache();
+	}
+	private int getIdTache() {
+		return idTache;
 	}
 	@Override
 	public String toString() {
@@ -80,6 +97,7 @@ public class Taches {
 		try {
 			final Integer idTache = rset.getInt("idTache");
 			final String nomTache = rset.getString("nomTache");
+			final int etatTache = rset.getInt("Etat_id_etat");
 			long time = rset.getDate("date_debut") == null ? 0 : rset.getDate("date_debut").getTime();
 			final Date date_debut = new Date(time);
 			time = rset.getDate("date_fin") == null ? 0 : rset.getDate("date_fin").getTime();
@@ -89,12 +107,16 @@ public class Taches {
 			taches.setName(nomTache);
 			taches.setDate_debut(date_debut);
 			taches.setDate_fin(date_fin);
-
+			taches.setEtatTache(etatTache);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
 
 		return taches;
+	}
+	private void setIdentifiant(Integer idTache) {
+		this.idTache = idTache;
+
 	}
 	public boolean isTacheTerminee() {
 		return etat_id_etat==EtatTache.TERMINE.etat_id_etat();
