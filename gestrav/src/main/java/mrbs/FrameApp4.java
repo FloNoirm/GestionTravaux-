@@ -48,10 +48,11 @@ public class FrameApp4 extends JFrame {
 				return tachesList.get(rowIndex).getNomTache();
 
 			} else {
-				return tachesList.get(rowIndex).getEtat();
+				return tachesList.get(rowIndex).getLibelleEtat();
 			}
 
 		}
+
 	}
 
 	List<Taches> tachesList;

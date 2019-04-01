@@ -74,9 +74,7 @@ public class Taches {
 	public int getEtat() {
 		return etat_id_etat;
 	}
-	public String libelleEtat() {
-		return EtatTache.libelleWithCode(etat_id_etat);
-	}
+
 	public void setIdEtat(int idTache) {
 		this.idTache = getIdTache();
 	}
@@ -126,5 +124,8 @@ public class Taches {
 	}
 	public boolean isTacheEnAttente() {
 		return etat_id_etat==EtatTache.EN_ATTENTE.etat_id_etat();
+	}
+	public String getLibelleEtat() {
+		return EtatTache.libelleWithCode(etat_id_etat);
 	}
 }
