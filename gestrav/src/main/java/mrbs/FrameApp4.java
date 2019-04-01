@@ -21,7 +21,7 @@ public class FrameApp4 extends JFrame {
 
 
 	private class TacheTableModel extends AbstractTableModel{
-		String  title[] = {"Nom de la Tache", "Etat"};
+		String  title[] = {"Nom de la Tache", "Etat", "Priorité"};
 		@Override
 		public int getRowCount() {
 			return tachesList.size();
@@ -47,8 +47,10 @@ public class FrameApp4 extends JFrame {
 			if (columnIndex == 0) {
 				return tachesList.get(rowIndex).getNomTache();
 
-			} else {
+			} else if  (columnIndex == 1){
 				return tachesList.get(rowIndex).getLibelleEtat();
+			} else {
+				return tachesList.get(rowIndex).getPriorite_tache();
 			}
 
 		}

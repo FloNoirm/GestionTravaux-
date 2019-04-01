@@ -96,6 +96,7 @@ public class Taches {
 			final Integer idTache = rset.getInt("idTache");
 			final String nomTache = rset.getString("nomTache");
 			final int etatTache = rset.getInt("Etat_id_etat");
+			final int priorite_tache = rset.getInt("priorite_tache");
 			long time = rset.getDate("date_debut") == null ? 0 : rset.getDate("date_debut").getTime();
 			final Date date_debut = new Date(time);
 			time = rset.getDate("date_fin") == null ? 0 : rset.getDate("date_fin").getTime();
@@ -106,6 +107,7 @@ public class Taches {
 			taches.setDate_debut(date_debut);
 			taches.setDate_fin(date_fin);
 			taches.setEtatTache(etatTache);
+			taches.setPriorite_tache(priorite_tache);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
