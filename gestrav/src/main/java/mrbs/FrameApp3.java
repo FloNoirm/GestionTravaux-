@@ -33,9 +33,9 @@ public class FrameApp3 extends JFrame {
 	private JLabel lblPrioritDeLa;
 	private JLabel lblSalle;
 	private JTextField txtFDateDebut;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
+	private JTextField txtFDateFin;
+	private JTextField txtFPriorite;
+	private JTextField txtFSalle;
 
 	public FrameApp3() throws HeadlessException {
 		getContentPane().add(getPanel(), BorderLayout.CENTER);
@@ -55,9 +55,9 @@ public class FrameApp3 extends JFrame {
 			panel.add(getLblPrioritDeLa());
 			panel.add(getLblSalle());
 			panel.add(getTxtFDateDebut());
-			panel.add(getTextField_1());
-			panel.add(getTextField_2());
-			panel.add(getTextField_3());
+			panel.add(getTxtFDateFin());
+			panel.add(getTxtFPriorite());
+			panel.add(getTxtFSalle());
 		}
 		return panel;
 	}
@@ -100,6 +100,9 @@ public class FrameApp3 extends JFrame {
 		Taches tacheSelectionner=(Taches) getComboTaches().getSelectedItem();
 		System.out.println(tacheSelectionner.getNomTache());
 		txtFDateDebut.setText(tacheSelectionner.getDate_debut().toString());
+		txtFDateFin.setText(tacheSelectionner.getDate_fin().toString());
+		txtFPriorite.setText(tacheSelectionner.getPrioriteLibelle());
+		txtFSalle.setText(tacheSelectionner.getLibelleSalle());
 	}
 
 	public void afficheListeTaches() {
@@ -184,28 +187,28 @@ public class FrameApp3 extends JFrame {
 		}
 		return txtFDateDebut;
 	}
-	private JTextField getTextField_1() {
-		if (textField_1 == null) {
-			textField_1 = new JTextField();
-			textField_1.setBounds(193, 146, 138, 20);
-			textField_1.setColumns(10);
+	private JTextField getTxtFDateFin() {
+		if (txtFDateFin == null) {
+			txtFDateFin = new JTextField();
+			txtFDateFin.setBounds(193, 146, 138, 20);
+			txtFDateFin.setColumns(10);
 		}
-		return textField_1;
+		return txtFDateFin;
 	}
-	private JTextField getTextField_2() {
-		if (textField_2 == null) {
-			textField_2 = new JTextField();
-			textField_2.setBounds(193, 179, 138, 20);
-			textField_2.setColumns(10);
+	private JTextField getTxtFPriorite() {
+		if (txtFPriorite == null) {
+			txtFPriorite = new JTextField();
+			txtFPriorite.setBounds(193, 179, 138, 20);
+			txtFPriorite.setColumns(10);
 		}
-		return textField_2;
+		return txtFPriorite;
 	}
-	private JTextField getTextField_3() {
-		if (textField_3 == null) {
-			textField_3 = new JTextField();
-			textField_3.setBounds(193, 208, 138, 20);
-			textField_3.setColumns(10);
+	private JTextField getTxtFSalle() {
+		if (txtFSalle == null) {
+			txtFSalle = new JTextField();
+			txtFSalle.setBounds(193, 208, 138, 20);
+			txtFSalle.setColumns(10);
 		}
-		return textField_3;
+		return txtFSalle;
 	}
 }
