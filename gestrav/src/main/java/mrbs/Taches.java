@@ -43,6 +43,43 @@ public class Taches {
 	}
 
 
+	private enum PrioriteTache{
+		IMPORTANT(1, "Important"),
+		MEDIUM(2, "Medium"),
+		SANS_URGENCE(3,"Sans urgence");
+
+		private String libelle;
+		private int code;
+
+
+		private PrioriteTache(int code ,String libelle) {
+			this.libelle = libelle;
+			this.code = code;
+		}
+
+		public int getCode() {
+			return code;
+		}
+
+		public String getLibelle() {
+			return libelle;
+		}
+		public static String libelleWithCode(int codeValue) {
+			for (PrioriteTache etat : PrioriteTache.values()) {
+				if ( etat.getCode() == codeValue )
+					return etat.getLibelle();
+			}
+			return null;
+		}
+
+
+	}
+
+	public String getPrioriteLibelle() {
+		PrioriteTache.libelleWithCode(priorite_tache);
+		return PrioriteTache.libelleWithCode(priorite_tache);
+	}
+
 	public int getPriorite_tache() {
 		return priorite_tache;
 	}
@@ -129,5 +166,9 @@ public class Taches {
 	}
 	public String getLibelleEtat() {
 		return EtatTache.libelleWithCode(etat_id_etat);
+	}
+	public char[] getSalle() {
+
+		return null;
 	}
 }
