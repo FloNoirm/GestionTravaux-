@@ -1,6 +1,10 @@
 package mrbs;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Date;
 
 public class Taches {
@@ -170,5 +174,45 @@ public class Taches {
 	public char[] getSalle() {
 
 		return null;
+	}
+
+	public  String getLibelleSalle(){
+
+		Connection con = null;
+		PreparedStatement stmt = null;
+		String libelleRoom = null;
+		try {
+			con = DriverManager.getConnection(FrameApp.URL, FrameApp.LOGIN, FrameApp.PASSWORD); //Récupére les donnés de connection
+
+			String requete = "SELECT idTache, room_name FROM taches JOIN mrbs_room ON taches.mrbs_room_id = id WHERE idTache = ? ";
+
+			stmt = con.prepareStatement(requete);
+
+			stmt.setInt(1,idTache);
+
+			ResultSet rset = stmt.executeQuery(requete);
+			if(rset.next()) {
+				libelleRoom = rset.getString("room_name");
+			}
+		}  catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (stmt != null) {
+				try {
+					// Le stmt.close ferme automatiquement le rset.
+					stmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return libelleRoom;
 	}
 }
