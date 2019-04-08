@@ -190,7 +190,7 @@ public class Taches {
 
 			stmt.setInt(1,idTache);
 
-			ResultSet rset = stmt.executeQuery(requete);
+			ResultSet rset = stmt.executeQuery();
 			if(rset.next()) {
 				libelleRoom = rset.getString("room_name");
 			}
